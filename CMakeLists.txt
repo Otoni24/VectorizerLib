@@ -1,7 +1,7 @@
 ﻿# CMakeList.txt : CMake project for VoidLevelEditor, include source and define
 # project specific logic here.
 #
-cmake_minimum_required (VERSION 3.8)
+cmake_minimum_required (VERSION 3.12)
 
 # Enable Hot Reload for MSVC compilers if supported.
 if (POLICY CMP0141)
@@ -10,9 +10,6 @@ if (POLICY CMP0141)
 endif()
 
 project ("VectorizerLib")
-set(CMAKE_CXX_STANDARD 20)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_EXTENSIONS OFF)
 
 # Add source to this project's executable.
 add_library (VectorizerLib STATIC
@@ -20,6 +17,10 @@ add_library (VectorizerLib STATIC
     "src/IO/ImageLoader.cpp"
     "src/Math/Math.cpp"
 )
+
+set_property(TARGET VectorizerLib PROPERTY CXX_STANDARD 17)
+set_property(TARGET VectorizerLib PROPERTY CXX_STANDARD_REQUIRED ON)
+set_property(TARGET VectorizerLib PROPERTY CXX_EXTENSIONS OFF)
 
 target_include_directories(VectorizerLib PUBLIC 
     ${CMAKE_CURRENT_SOURCE_DIR}/include
