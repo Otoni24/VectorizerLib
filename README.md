@@ -29,7 +29,7 @@ include(FetchContent)
 FetchContent_Declare(
     VectorizerLib
     GIT_REPOSITORY https://github.com/Otoni24/VectorizerLib.git
-    GIT_TAG        "main" # Or a specific version tag like "v1.0.0"
+    GIT_TAG        "master"
 )
 
 FetchContent_MakeAvailable(VectorizerLib)
