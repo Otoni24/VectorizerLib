@@ -1,7 +1,7 @@
 #include <vector>
 #include <Vectorizer/Vectorizer.h>
 #include "IO/ImageLoader.h"
-#include "Utils/util.h"
+#include "Vectorizer/util.h"
 
 namespace Vectorizer
 {

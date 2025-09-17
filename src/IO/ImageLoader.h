@@ -1,7 +1,7 @@
 #pragma once
 
 #include <string>
-#include "Utils/Util.h"
+#include "Vectorizer/Util.h"
 
 struct ImageData {
 	std::string path;
