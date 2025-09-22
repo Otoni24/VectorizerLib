@@ -31,3 +31,9 @@ target_include_directories(VectorizerLib PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/libs/stb
     ${CMAKE_CURRENT_SOURCE_DIR}/libs/nlohmann
 )
+
+option(VEC_IMPLEMENT_STB_IMAGE "Implement stb_image within VectorizerLib" ON)
+
+if(VEC_IMPLEMENT_STB_IMAGE)
+    target_compile_definitions(VectorizerLib PRIVATE STB_IMAGE_IMPLEMENTATION)
+endif()
