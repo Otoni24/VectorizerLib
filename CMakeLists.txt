@@ -11,6 +11,7 @@ endif()
 
 project ("VectorizerLib")
 
+option(VEC_IMPLEMENT_STB_IMAGE "Implement stb_image within VectorizerLib" ON)
 # Add source to this project's executable.
 add_library (VectorizerLib STATIC
     "src/Core/Vectorizer.cpp"
@@ -32,7 +33,6 @@ target_include_directories(VectorizerLib PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/libs/nlohmann
 )
 
-option(VEC_IMPLEMENT_STB_IMAGE "Implement stb_image within VectorizerLib" ON)
 
 if(VEC_IMPLEMENT_STB_IMAGE)
     target_compile_definitions(VectorizerLib PRIVATE STB_IMAGE_IMPLEMENTATION)
