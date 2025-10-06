@@ -8,20 +8,20 @@ namespace Vectorizer
     using EdgePair = std::pair<int, int>;
     static const List<EdgePair> marchingSquaresLUT[16] = {
         {},                     // Case 0: ----
-        { {3, 0} },             // Case 1: #---
-        { {0, 1} },             // Case 2: -#--
-        { {3, 1} },             // Case 3: ##--
-        { {1, 2} },             // Case 4: --#-
-        { {3, 0}, {1, 2} },     // Case 5: #-#- (Ambiguo, separato)
-        { {0, 2} },             // Case 6: -##-
-        { {3, 2} },             // Case 7: ###-
-        { {2, 3} },             // Case 8: ---#
-        { {2, 0} },             // Case 9: #--#
-        { {0, 1}, {2, 3} },     // Case 10: -#-# (Ambiguo, separato)
-        { {2, 1} },             // Case 11: #-##
-        { {1, 3} },             // Case 12: --##
-        { {1, 0} },             // Case 13: #.##
-        { {0, 3} },             // Case 14: -###
+        { {0, 3} },             // Case 1: #---
+        { {1, 0} },             // Case 2: -#--
+        { {1, 3} },             // Case 3: ##--
+        { {2, 1} },             // Case 4: --#-
+        { {0, 3}, {2, 1} },     // Case 5: #-#- (Ambiguo, separato)
+        { {2, 0} },             // Case 6: -##-
+        { {2, 3} },             // Case 7: ###-
+        { {3, 2} },             // Case 8: ---#
+        { {0, 2} },             // Case 9: #--#
+        { {1, 0}, {3, 2} },     // Case 10: -#-# (Ambiguo, separato)
+        { {1, 2} },             // Case 11: #-##
+        { {3, 1} },             // Case 12: --##
+        { {0, 1} },             // Case 13: #.##
+        { {3, 0} },             // Case 14: -###
         {}                      // Case 15: ####
     };
 
