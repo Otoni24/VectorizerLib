@@ -12,12 +12,12 @@ namespace Vectorizer
         { {1, 0} },             // Case 2: -#--
         { {1, 3} },             // Case 3: ##--
         { {2, 1} },             // Case 4: --#-
-        { {0, 3}, {2, 1} },     // Case 5: #-#- (Ambiguo, separato)
+        { {0, 3}, {2, 1} },     // Case 5: #-#-
         { {2, 0} },             // Case 6: -##-
         { {2, 3} },             // Case 7: ###-
         { {3, 2} },             // Case 8: ---#
         { {0, 2} },             // Case 9: #--#
-        { {1, 0}, {3, 2} },     // Case 10: -#-# (Ambiguo, separato)
+        { {1, 0}, {3, 2} },     // Case 10: -#-#
         { {1, 2} },             // Case 11: #-##
         { {3, 1} },             // Case 12: --##
         { {0, 1} },             // Case 13: #.##
@@ -29,22 +29,16 @@ namespace Vectorizer
     {
         if (x < 0 || y < 0 || x >= width || y >= height)
         {
-            return false; // I pixel fuori dall'immagine sono considerati vuoti
+            return false;
         }
 
-        // Calcola l'indice del primo byte del pixel (R) nell'array di dati
         int index = (y * width + x) * channels;
 
-        // Assumiamo che il pixel sia solido se è nero (R=0, G=0, B=0)
-        // Controlliamo solo il primo canale (Rosso) per semplicità, ma potresti
-        // controllare anche G e B se necessario.
-        // Il valore 255 è bianco, 0 è nero.
-        return data[index] < 128; // Considera solido tutto ciò che è più scuro del 50% di grigio
+        return data[index] < 128;
     }
 
     void simplifyRecursive(const Math::Chain& originalChain, size_t startIndex, size_t endIndex, float tolerance, Math::Chain& outChain)
     {
-        // 1. Trova il punto più lontano tra startIndex e endIndex
         float maxDistance = 0.0f;
         size_t farthestIndex = startIndex;
         Math::Segment segment = { originalChain[startIndex], originalChain[endIndex] };
@@ -59,18 +53,13 @@ namespace Vectorizer
             }
         }
 
-        // 2. Se il punto più lontano è significativo, dividi e conquista
         if (maxDistance > tolerance)
         {
-            // Chiama ricorsivamente sulla parte sinistra
             simplifyRecursive(originalChain, startIndex, farthestIndex, tolerance, outChain);
-            // Chiama ricorsivamente sulla parte destra
             simplifyRecursive(originalChain, farthestIndex, endIndex, tolerance, outChain);
         }
         else
         {
-            // 3. Se nessun punto è significativo, significa che l'ultimo punto
-            //    della catena è il prossimo punto da tenere.
             outChain.push_back(originalChain[endIndex]);
         }
     }
@@ -83,11 +72,8 @@ namespace Vectorizer
         }
 
         Math::Chain simplifiedChain;
-        // La catena semplificata conterrà sempre il primo punto dell'originale.
         simplifiedChain.push_back(chain.front());
 
-        // Avvia il processo ricorsivo sull'intera catena.
-        // L'helper aggiungerà tutti gli altri punti necessari a 'simplifiedChain'.
         simplifyRecursive(chain, 0, chain.size() - 1, tolerance, simplifiedChain);
         chain = simplifiedChain;
         return chain;
@@ -134,7 +120,6 @@ namespace Vectorizer
         {
             for (int x = -1; x < image.width; ++x)
             {
-                // Per ogni cella 2x2, controlla i 4 angoli
                 bool topLeft = isSolid(x, y, image.width, image.height, image.channels, image.data);
                 bool topRight = isSolid(x + 1, y, image.width, image.height, image.channels, image.data);
                 bool bottomLeft = isSolid(x, y + 1, image.width, image.height, image.channels, image.data);
@@ -183,25 +168,19 @@ namespace Vectorizer
             return;
         }
 
-        // Calcola l'altezza della console per mantenere l'aspect ratio (i caratteri sono più alti che larghi)
         int consoleHeight = static_cast<int>((static_cast<float>(imageHeight) / imageWidth) * consoleWidth * 0.5f);
 
-        // Crea una "tela" di caratteri vuoti
         std::vector<std::string> canvas(consoleHeight, std::string(consoleWidth, '.'));
 
-        // Carattere da usare per disegnare, uno diverso per ogni catena
         char drawChar = 'A';
 
-        // Disegna i vertici di ogni catena sulla tela
         for (const auto& chain : chains)
         {
             for (const auto& point : chain)
             {
-                // Scala le coordinate del punto per adattarle alla dimensione della console
                 int x = static_cast<int>((point.x / imageWidth) * consoleWidth);
                 int y = static_cast<int>((point.y / imageHeight) * consoleHeight);
 
-                // Assicurati che le coordinate siano valide
                 if (x >= 0 && x < consoleWidth && y >= 0 && y < consoleHeight)
                 {
                     canvas[y][x] = drawChar;
@@ -211,7 +190,6 @@ namespace Vectorizer
             if (drawChar > 'Z') drawChar = 'A';
         }
 
-        // Stampa la tela sulla console
         std::cout << "\n--- Visualizzazione Contorni Semplificati ---" << std::endl;
         for (int i = 0; i < consoleHeight; ++i)
         {
